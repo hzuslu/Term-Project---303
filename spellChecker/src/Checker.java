@@ -65,7 +65,7 @@ public class Checker {
         return Filter;
     }
 
-    public int calculateLevenshteinDistance(String s1, String s2) {
+    public int EditDistance(String s1, String s2) {
         int m = s1.length();
         int n = s2.length();
 
