@@ -38,7 +38,7 @@ public class Checker {
 
 
         for (String word : dictionary) {
-            int distance = calculateLevenshteinDistance(misspelled, word);
+            int distance = EditDistance(misspelled, word);
 
             if (distance <= 2) {
                 suggestions.add(word);
