@@ -1,3 +1,8 @@
+//Fırat bilgen 22050151020
+// Mustafa yılmaz 20050111010
+// Hasan uslu 19050111003
+// Batuhan tuncer 20050111040
+
 import javax.swing.*;
 
 import javax.swing.*;
