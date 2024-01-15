@@ -2,9 +2,7 @@ package project.corrector;
 
 import project.checker.Checker;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class SentenceCorrector implements ISentenceCorrector {
 
@@ -33,16 +31,23 @@ public class SentenceCorrector implements ISentenceCorrector {
 
      public void handleSuggestions(String misspelledWord, List<String> suggestions,
                                    List<String> correctWords, Scanner scanner) {
-        System.out.println("\n\nSuggestions for " + misspelledWord + ": " + suggestions);
-        System.out.println("Select one of them");
+         if(suggestions.isEmpty()){
+             System.out.println("There is no suggestions for this word");
+         }
+        else{
+             System.out.println("\n\nSuggestions for " + misspelledWord + ": " + suggestions);
+             System.out.println("Select one of them");
 
-        String correctWord = scanner.nextLine().toLowerCase();
-        while (!suggestions.contains(correctWord)) {
-            System.out.println("Error!! There is no such suggestion");
-            System.out.println("Suggestions for " + misspelledWord + ": " + suggestions);
-            correctWord = scanner.nextLine().toLowerCase();
-        }
-        correctWords.add(correctWord);
+             String correctWord = scanner.nextLine().toLowerCase();
+
+             while (!suggestions.contains(correctWord)) {
+                 System.out.println("Error!! There is no such suggestion");
+                 System.out.println("Suggestions for " + misspelledWord + ": " + suggestions);
+                 correctWord = scanner.nextLine().toLowerCase();
+
+             }
+             correctWords.add(correctWord);
+         }
     }
 
      public void printCorrectSentences(String inputText, List<String> misspelledWords, List<String> correctWords) {
@@ -65,19 +70,31 @@ public class SentenceCorrector implements ISentenceCorrector {
         return word.substring(0, 1).toUpperCase() + word.substring(1);
     }
 
-     public List<String> generateCorrectSentences(String inputText, List<String> misspelledWords, List<String> correctWords) {
+    public List<String> generateCorrectSentences(String inputText, List<String> misspelledWords, List<String> correctWords) {
         List<String> correctSentences = new ArrayList<>();
         String[] inputWords = inputText.toLowerCase().split("[\\s.,;!?]+");
+
+        if (correctWords.isEmpty()) {
+            return Arrays.asList(inputWords);
+        }
 
         int i = 0;
         for (String word : inputWords) {
             if (!misspelledWords.contains(word)) {
                 correctSentences.add(word);
             } else {
-                correctSentences.add(correctWords.get(i));
-                i++;
+                if (i < correctWords.size()) {
+                    correctSentences.add(correctWords.get(i));
+                    i++;
+                } else {
+                    // Handle the case where correctWords is shorter than misspelledWords
+                    // You can throw an exception or handle it in another appropriate way
+                    System.out.println("Error: Not enough correct words for misspelled words");
+                    return Collections.emptyList(); // Or handle the error as needed
+                }
             }
         }
         return correctSentences;
     }
+
 }
